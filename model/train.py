@@ -1,11 +1,16 @@
 # %%
 import pandas as pd
+import mlflow
+import matplotlib.pyplot as plt
 from sklearn import model_selection
 from sklearn import tree
 from feature_engine import discretisation,  encoding
 from sklearn.pipeline import Pipeline
 from sklearn import metrics
 from sklearn import ensemble
+
+mlflow.set_tracking_uri("http://127.0.0.1:5000/")
+mlflow.set_experiment(experiment_id = "2")
 
 df = pd.read_csv("../data/abt.csv", parse_dates = ["date"])
 df.head()
@@ -69,7 +74,9 @@ modelo_pipeline = Pipeline([
         variables = variaveis_onehot,
         ignore_format = True,
     )),
-    ("modelo", ensemble.RandomForestRegressor(random_state = 42)),
+    ("modelo", ensemble.ExtraTreesRegressor(
+        random_state = 42,
+    )),
 ])
 
 grid = model_selection.GridSearchCV(
@@ -77,18 +84,41 @@ grid = model_selection.GridSearchCV(
     param_grid = params,
     cv = 5,
     scoring = "neg_mean_absolute_error",
-    n_jobs = -1,
-    verbose = 2,
+    n_jobs = -2,
+    verbose = 4,
 )
 
-grid.fit(X_train, y_train)
+with mlflow.start_run(
+    run_name = str(modelo_pipeline.named_steps["modelo"].__class__.__name__
+)):
+    mlflow.sklearn.autolog(registered_model_name = "model_price")
+    grid.fit(X_train, y_train)
 
-# Assess
-y_train_pred = grid.predict(X_test)
-y_train_proba = grid.predict_proba(X_train)[:,1]
+    # Assess
+    y_train_pred = grid.predict(X_train)
+    y_test_pred = grid.predict(X_test)
+    y_oot_pred = grid.predict(oot[features].drop(columns = ["street"]))
 
+    mae_train = metrics.mean_absolute_error(y_train, y_train_pred)
+    mae_test = metrics.mean_absolute_error(y_test, y_test_pred)
+    mae_oot = metrics.mean_absolute_error(oot[target], y_oot_pred)
 
+    print("\nMelhores parâmetros:", grid.best_params_)
+    print(f"MAE no Treino: {mae_train:.2F}")
+    print(f"MAE no Teste: {mae_test:.2F}")
+    print(f"MAE no OOT: {mae_oot:.2F}")
 
-print("Melhores parâmetros:", grid.best_params_)
-print("MAE no teste:", metrics.mean_absolute_error(y_test, y_test_pred))
+    mlflow.log_metrics({
+        "mae_train":mae_train,
+        "mae_test":mae_test,
+        "mae_oot":mae_oot,
+    })
+# %%
+plt.bar(
+    ["Treino", "Teste", "OOT"],
+    [mae_train, mae_test, mae_oot],
+)
+plt.ylabel("MAE")
+plt.show()
+
 # %%
