@@ -8,8 +8,9 @@ from feature_engine import discretisation,  encoding
 from sklearn.pipeline import Pipeline
 from sklearn import metrics
 from sklearn import ensemble
+from sklearn.dummy import DummyRegressor
 
-mlflow.set_tracking_uri("http://127.0.0.1:5000/")
+mlflow.set_tracking_uri("http://127.0.0.1:5001/")
 mlflow.set_experiment(experiment_id = "2")
 
 df = pd.read_csv("../data/abt.csv", parse_dates = ["date"])
@@ -26,7 +27,8 @@ df_train = df[df['date'] <= "2014-06-26"].copy()
 features = df_train.columns[2:-1]
 target = 'price'
 
-X, y = df_train[features].drop(columns = ["street"]), df_train[target]
+X = df_train[features].drop(columns = ["street", "sqft_basement", "city", "statezip", "view", "yr_built"])
+y = df_train[target]
 
 # %%
 
@@ -52,10 +54,9 @@ variaveis_discretizar = [
     "sqft_living",
     "sqft_lot",
     "sqft_above",
-    "sqft_basement",
 ]
 
-variaveis_onehot = ["city", "statezip"] + variaveis_discretizar
+variaveis_onehot = variaveis_discretizar
 
 params = {
     "modelo__max_depth": [3, 5, 10, None],
@@ -74,7 +75,7 @@ modelo_pipeline = Pipeline([
         variables = variaveis_onehot,
         ignore_format = True,
     )),
-    ("modelo", ensemble.ExtraTreesRegressor(
+    ("modelo", ensemble.RandomForestRegressor(
         random_state = 42,
     )),
 ])
@@ -97,7 +98,7 @@ with mlflow.start_run(
     # Assess
     y_train_pred = grid.predict(X_train)
     y_test_pred = grid.predict(X_test)
-    y_oot_pred = grid.predict(oot[features].drop(columns = ["street"]))
+    y_oot_pred = grid.predict(oot[features].drop(columns = ["street", "sqft_basement", "city", "statezip", "view", "yr_built"]))
 
     mae_train = metrics.mean_absolute_error(y_train, y_train_pred)
     mae_test = metrics.mean_absolute_error(y_test, y_test_pred)

@@ -5,7 +5,7 @@ import mlflow
 import mlflow.sklearn
 import pandas as pd
 
-mlflow.set_tracking_uri("http://127.0.0.1:5000/")
+mlflow.set_tracking_uri("http://127.0.0.1:5001/")
 
 registered_models = mlflow.search_registered_models(
     filter_string="name = 'model_price'"
