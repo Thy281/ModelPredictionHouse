@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 @st.cache_resource
 def carregar_modelo():
-    mlflow.set_tracking_uri("http://127.0.0.1:5001/")
+    mlflow.set_tracking_uri("http://127.0.0.1:5000/")
 
     modelos = mlflow.search_registered_models(
         filter_string="name = 'model_price'"
@@ -46,10 +46,11 @@ st.markdown(
     "Forneça os detalhes do imóvel na aba 'Dados do imóvel' e clique em 'Prever preço' para obter a estimativa."
 )
 
-tab_dados, tab_modelo, tab_previsao = st.tabs(["Dados do imóvel", "Modelo", "Previsão"])
+tab_modelo, tab_dados, tab_previsao = st.tabs(["Modelo", "Dados do imóvel", "Previsão"])
 
 
 with tab_dados:
+    st.header("Dados do imóvel")
     exp1 = st.expander("Sobre o modelo")
     exp1.write(
         "Este modelo foi treinado com dados de imóveis de Seattle, nos Estados Unidos. "
@@ -143,7 +144,6 @@ with tab_modelo:
         " nos Estados Unidos. Ele utiliza as características do imóvel fornecidas na aba 'Dados do imóvel'" \
         " para estimar o preço."
         )
-    exp2 = st.expander("Exibir detalhes do modelo")
     pipeline = modelo.best_estimator_
     nomes = {
         "bedrooms": "Quartos", "bathrooms": "Banheiros", "floors": "Andares",
@@ -166,7 +166,7 @@ with tab_modelo:
     eixo.set_xlabel("Importância")
     eixo.set_title("10 características mais importantes")
     figura.tight_layout()
-    exp2.pyplot(figura)
+    st.pyplot(figura)
     plt.close(figura)
 
 with tab_previsao:
@@ -185,8 +185,15 @@ with tab_previsao:
     }])
 
     if st.button("Prever preço", type="primary"):
+        if area_lot_m2 <= 5:
+            st.error("A área do terreno deve ser maior que 5 m².")
+        elif area_living_m2 <= 5:
+            st.error("A área interna da casa deve ser maior que 5 m².")
+        else:
+            st.subheader("Resultado da previsão")
+            st.write("Com base nas características fornecidas, o preço estimado do imóvel é:")
+            
         preco_previsto = modelo.predict(dados_imovel)[0]
-
         st.metric(
             label="Preço estimado em dólares",
             value=f"US$ {preco_previsto:,.2f}",
