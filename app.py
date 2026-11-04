@@ -134,7 +134,7 @@ with tab_modelo:
         " nos Estados Unidos. Ele utiliza as características do imóvel fornecidas na aba 'Dados do imóvel'" \
         " para estimar o preço."
         )
-    pipeline = modelo.best_estimator_
+    pipeline = getattr(modelo, "best_estimator_", modelo)
     nomes = {
         "bedrooms": "Quartos", "bathrooms": "Banheiros", "floors": "Andares",
         "waterfront": "Frente para a água", "condition": "Condição do imóvel",
