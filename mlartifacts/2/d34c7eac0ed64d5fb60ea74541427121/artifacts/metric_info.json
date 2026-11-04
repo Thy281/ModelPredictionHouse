@@ -1,5 +1,0 @@
-{
-  "mean_absolute_error-2_X_test": "mean_absolute_error(y_true=y_test, y_pred=y_test_pred)",
-  "mean_absolute_error-3_unknown_dataset": "mean_absolute_error(y_true=<Series>, y_pred=y_oot_pred)",
-  "mean_absolute_error_X_train": "mean_absolute_error(y_true=y_train, y_pred=y_train_pred)"
-}
