@@ -10,7 +10,7 @@ from sklearn import metrics
 from sklearn import ensemble
 from sklearn.dummy import DummyRegressor
 
-mlflow.set_tracking_uri("http://127.0.0.1:5001/")
+mlflow.set_tracking_uri("http://127.0.0.1:5000/")
 mlflow.set_experiment(experiment_id = "2")
 
 df = pd.read_csv("../data/abt.csv", parse_dates = ["date"])

@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 from urllib.request import urlopen
 
 import streamlit as st
@@ -9,25 +10,14 @@ import matplotlib.pyplot as plt
 
 @st.cache_resource
 def carregar_modelo():
-    mlflow.set_tracking_uri("http://127.0.0.1:5000/")
+    caminho_modelo = Path(__file__).resolve().parent / "model" / "model_price"
+    return mlflow.sklearn.load_model(str(caminho_modelo))
 
-    modelos = mlflow.search_registered_models(
-        filter_string="name = 'model_price'"
-    )
-
-    if not modelos or not modelos[0].latest_versions:
-        raise ValueError("O modelo 'model_price' não foi encontrado no MLflow Registry.")
-
-    versao_atual = max(
-        modelos[0].latest_versions,
-        key=lambda versao: int(versao.version),
-    )
-
-    return mlflow.sklearn.load_model(
-        f"models:/model_price/{versao_atual.version}"
-    )
-
-modelo = carregar_modelo()
+try:
+    modelo = carregar_modelo()
+except Exception as erro:
+    st.error(f"Não foi possível carregar o modelo do MLflow: {erro}")
+    st.stop()
 
 @st.cache_data(ttl=3600)
 def obter_cotacao_usd_brl():
