@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="440" viewBox="0 0 1200 440" fill="none">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1200" y2="440" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1528"/>
+      <stop offset="1" stop-color="#142B42"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#75E0C0"/>
+      <stop offset="1" stop-color="#42BFA4"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="440" rx="28" fill="url(#background)"/>
+  <circle cx="1080" cy="50" r="170" fill="#2E6E71" fill-opacity=".12"/>
+  <circle cx="90" cy="420" r="210" fill="#2E6E71" fill-opacity=".10"/>
+  <text x="64" y="70" fill="#75E0C0" font-family="Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="3">ESTIMATIVA RESIDENCIAL</text>
+  <text x="64" y="119" fill="#F6F4EE" font-family="Arial, sans-serif" font-size="34" font-weight="700">Do imóvel à estimativa</text>
+  <text x="64" y="151" fill="#B6C6D3" font-family="Arial, sans-serif" font-size="17">Uma previsão orientada pelas características da propriedade.</text>
+  <rect x="64" y="195" width="300" height="176" rx="20" fill="#F6F4EE"/>
+  <text x="91" y="231" fill="#172538" font-family="Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="1">DADOS DO IMÓVEL</text>
+  <rect x="91" y="252" width="112" height="42" rx="10" fill="#E8EEE9"/>
+  <text x="106" y="270" fill="#637279" font-family="Arial, sans-serif" font-size="11">QUARTOS</text>
+  <text x="106" y="286" fill="#172538" font-family="Arial, sans-serif" font-size="15" font-weight="700">3</text>
+  <rect x="217" y="252" width="120" height="42" rx="10" fill="#E8EEE9"/>
+  <text x="232" y="270" fill="#637279" font-family="Arial, sans-serif" font-size="11">BANHEIROS</text>
+  <text x="232" y="286" fill="#172538" font-family="Arial, sans-serif" font-size="15" font-weight="700">1,5</text>
+  <rect x="91" y="307" width="246" height="42" rx="10" fill="#E8EEE9"/>
+  <text x="106" y="325" fill="#637279" font-family="Arial, sans-serif" font-size="11">ÁREA INTERNA</text>
+  <text x="106" y="341" fill="#172538" font-family="Arial, sans-serif" font-size="15" font-weight="700">124,5 m²</text>
+  <path d="M389 283h68m-14-14 14 14-14 14" stroke="#75E0C0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="476" y="195" width="250" height="176" rx="20" fill="#1D3850" stroke="#35556B"/>
+  <circle cx="601" cy="252" r="29" fill="#25485D"/>
+  <path d="m585 252 16-14 16 14v17h-12v-12h-8v12h-12v-17Z" stroke="#75E0C0" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="601" y="311" fill="#F6F4EE" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle">Random Forest</text>
+  <text x="601" y="337" fill="#B6C6D3" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">modelo de regressão</text>
+  <path d="M751 283h68m-14-14 14 14-14 14" stroke="#75E0C0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="840" y="195" width="296" height="176" rx="20" fill="url(#accent)"/>
+  <text x="870" y="233" fill="#10352F" font-family="Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="1">PREÇO ESTIMADO</text>
+  <text x="870" y="284" fill="#0B2825" font-family="Arial, sans-serif" font-size="34" font-weight="700">US$ 000.000</text>
+  <path d="M870 309h230" stroke="#167F6B" stroke-opacity=".35"/>
+  <text x="870" y="340" fill="#12483F" font-family="Arial, sans-serif" font-size="14">Resultado de exemplo</text>
+  <text x="1098" y="340" fill="#12483F" font-family="Arial, sans-serif" font-size="12" text-anchor="end">valores ilustrativos</text>
+</svg>
